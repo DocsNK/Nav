@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Navigateur iframe simple</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    #controls {
+      padding: 10px;
+      background: #222;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    button {
+      padding: 8px 16px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+      background-color: #007bff;
+      color: white;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #urlDisplay {
+      flex-grow: 1;
+      font-weight: bold;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    iframe {
+      flex-grow: 1;
+      border: none;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="controls">
+    <button id="prevBtn">← Précédent</button>
+    <button id="nextBtn">Suivant →</button>
+    <button id="openBtn">Ouvrir dans un nouvel onglet</button>
+    <div id="urlDisplay"></div>
+  </div>
+  <iframe id="siteFrame" src="" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+
+  <script>
+    const sites = [
+      "https://www.wikipedia.org",
+      "https://scratch.mit.edu",
+      "https://codepen.io",
+      "https://jsfiddle.net",
+      "https://openweathermap.org",
+      "https://piskelapp.com",
+      "https://www.w3schools.com",
+      "https://www.khanacademy.org",
+      "https://www.mozilla.org",
+      "https://developer.mozilla.org",
+      "https://threejs.org"
+    ];
+
+    let currentIndex = 0;
+
+    const iframe = document.getElementById("siteFrame");
+    const urlDisplay = document.getElementById("urlDisplay");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const openBtn = document.getElementById("openBtn");
+
+    function loadSite(index) {
+      currentIndex = index;
+      if (currentIndex < 0) currentIndex = sites.length - 1;
+      if (currentIndex >= sites.length) currentIndex = 0;
+      iframe.src = sites[currentIndex];
+      urlDisplay.textContent = sites[currentIndex];
+    }
+
+    prevBtn.addEventListener("click", () => {
+      loadSite(currentIndex - 1);
+    });
+
+    nextBtn.addEventListener("click", () => {
+      loadSite(currentIndex + 1);
+    });
+
+    openBtn.addEventListener("click", () => {
+      window.open(sites[currentIndex], "_blank");
+    });
+
+    // Charge le premier site au démarrage
+    loadSite(currentIndex);
+  </script>
+</body>
+</html>
